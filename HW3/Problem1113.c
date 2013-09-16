@@ -3,13 +3,16 @@
 
 int main(void)
 {
-    int nInt = 0;
-    double nDouble = 0;
+    int nInt = 1;
+    double nDouble = 1;
     double nLog = 0;
     int i = 1;
+    printf("n = %d || Int: %d | Double: %lf | Log: %lf\n", 0, 0, 0, 0);
     for (; i < 31; i++)
     {
-        nInt = nInt*i;
-        printf("Int: %d", nInt);
+        nInt = nInt * i;
+        nDouble = nDouble * (double)i;
+        nLog = log(nDouble);
+        printf("n = %d || Int: %d | Double: %lf | Log: %lf\n", i, nInt, nDouble, exp(nLog));
     }
 }
