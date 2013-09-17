@@ -8,7 +8,7 @@ int main(void)
     double e = 0;
     double n = 0;
     int i = 1;
-    for (; i < 11.0; i++)
+    for (; i < 11; i++)
     {
         n = pow(8.0, i);
         e = pow(1 + (1/n), n);

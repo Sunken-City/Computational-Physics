@@ -1,0 +1,9 @@
+//How to make sure that you stop at the right time when using floating point variables as loop control variables.
+xstop = xstop + 0.5 * xinc;
+
+//
+if (argc != 4)
+{
+    fprintf(stderr,"%s <f0> <Q> <tmax>\n", argv[0]);
+    exit(1);
+}
