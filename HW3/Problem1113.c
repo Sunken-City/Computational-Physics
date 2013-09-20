@@ -8,7 +8,8 @@ int main(void)
     double nDouble = 1;
     double nLog = log(1);
     int i = 1;
-    printf("n = %d || Int: %d | Double: %lf | Log: %lf\n", 0, 1, 1, 1);
+    //Hard code the first factorial, n = 0, or 0! = 1
+    printf("n = %d || Int: %d | Double: %lf | Log: %lf\n", 0, 1, 1.0, 1.0);
     for (; i < 31; i++)
     {
         nInt = nInt * i;
