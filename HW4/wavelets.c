@@ -19,7 +19,8 @@ double wavelets(double x)
   double realTotal = 0.0; //Sum of the real components
   double imagTotal = 0.0; //Sum of the imaginary components
   double x1 = -W/2.0;
-  for (int i = 0; i < 1000; i++)
+  int i = 0;
+  for (; i < 1000; i++)
   {
     x1 += 0.001;
     d0 = sqrt(pow(D0, 2.0) + pow(x1 - x0, 2.0));
