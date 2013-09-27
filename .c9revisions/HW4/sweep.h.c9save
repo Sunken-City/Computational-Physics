@@ -1,0 +1,1 @@
+{"ts":1380226046039,"silentsave":true,"restoring":false,"patch":[[{"diffs":[[1,"int sweep(double (*func)(double x),double xstart,double xstop,double xinc);\nint sweep2(double (*func)(double x,double y),double xstart,double xstop,double xinc,double ystart,double ystop,double yinc);\n"]],"start1":0,"start2":0,"length1":0,"length2":201}]],"length":201}

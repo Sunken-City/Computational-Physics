@@ -12,8 +12,8 @@ int main(void)
     {
         n = pow(8.0, i);
         e = pow(1 + (1/n), n);
-        printf("Using 8^%d: e = %lf\n", i, e);
+        printf("Using 8^%d: e = %.14lf\n", i, e);
     }
     e = exp(1.0);
-    printf("Using exp: e = %lf\n", e);
+    printf("Using exp: e = %.14lf\n", e);
 }
