@@ -26,10 +26,10 @@ double wavelets(double x)
     d0 = sqrt(pow(D0, 2.0) + pow(x1 - x0, 2.0));
     d1 = sqrt(pow(D1, 2.0) + pow(x1 - x, 2.0));
     phi = (TWO_PI * (d0 + d1)) / lambda;
-    realTotal = cos(phi);
-    imagTotal = sin(phi);
+    realTotal += cos(phi);
+    imagTotal += sin(phi);
   }
-  intensity = sqrt(pow(realTotal, 2.0) + pow(imagTotal, 2.0));
+  intensity = pow(realTotal, 2.0) + pow(imagTotal, 2.0);
   return(intensity);
 }
 
