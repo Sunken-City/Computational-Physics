@@ -3,9 +3,13 @@
 #include <math.h>
 #include "roots.h"
 
+double Me = 5.98e24; //Mass of the earth
+double Ms = 2.0e30; //Mass of the sun
+double R = 1.5e11; //Radius of earth's orbit
+
 double f(double x) {
   double y;
-  y =   -5.0 + x * (-2.0 + x * x);  /* Complete this statement */
+  y =   (pow(R,3.0) * ((Ms/(pow(R+x,2.0))) + (Me/(x*x)))) - (R * Ms) - (x * Ms);
   return(y);
 }
 
@@ -18,6 +22,6 @@ int main(int argc,char *argv[]) {
   }
   a = atof(argv[1]);
   b = atof(argv[2]);
-  secant(f,a,b,100,1.0e-9);
+  secant(f,a,b,100,1);
   exit(0);
 }
