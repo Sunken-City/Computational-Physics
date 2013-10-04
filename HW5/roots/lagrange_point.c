@@ -9,7 +9,7 @@ double R = 1.5e11; //Radius of earth's orbit
 
 double f(double x) {
   double y;
-  y =   (pow(R,3.0) * ((Ms/(pow(R+x,2.0))) + (Me/(x*x)))) - (R * Ms) - (x * Ms);
+  y =   (R*R*R*Ms*x*x) + (R*R*R*Me*(R+x)*(R+x)) - ((R+x)*(R+x)*(R+x)*x*x*Ms);
   return(y);
 }
 
@@ -22,6 +22,6 @@ int main(int argc,char *argv[]) {
   }
   a = atof(argv[1]);
   b = atof(argv[2]);
-  secant(f,a,b,100,1);
+  secant(f,a,b,100,1000.0);
   exit(0);
 }

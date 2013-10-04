@@ -14,7 +14,7 @@ double f(double E) {
 
 double fp(double E) {
   double fp;
-  fp =   1 - e*cos(E);   /* Complete this statement */
+  fp =   1.0 - e*cos(E);   /* Complete this statement */
   return(fp);
 }
 
