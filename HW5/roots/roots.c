@@ -101,3 +101,50 @@ int bisection(double (*func)(double x),double a,double b,int nmax,double tol) {
   }
   return(0);
 }
+
+int secant(double (*func)(double x),double a,double b,int nmax,double tol) 
+{
+  double fa,fb,d,swap;
+  int n;
+
+  fa = (*func)(a);
+  fb = (*func)(b);
+  if (fabs(fa) > fabs(fb)) 
+  {
+    swap = a;
+    a = b;
+    b = swap;
+    swap = fa;
+    fa = fb;
+    fb = swap;
+  }
+  printf("0 %.16g %.16g\n",b,fb);
+  printf("1 %.16g %.16g\n",a,fa);
+  n = 2;
+  while (n <= nmax) 
+  {
+    if (fabs(fa) > fabs(fb)) 
+    {
+      swap = a;
+      a = b;
+      b = swap;
+      swap = fa;
+      fa = fb;
+      fb = swap;
+    }
+    d = ((b - a) / (fb - fa)) * fa;
+    b = a;
+    fb = fa;
+    
+    if (fabs(d) < tol) break;
+    a = a - d;
+    fa = (*func)(a);
+    printf("%d %.16g %.16g\n",n,a,fa);
+    n++;
+  }
+  if (n > nmax) {
+    fprintf(stderr,"secant: Iteration limit of %d reached\n",nmax);
+    return(1);
+  }
+  return(0);
+}
