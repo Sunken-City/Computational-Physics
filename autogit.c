@@ -10,11 +10,12 @@ int main(int argc,char *argv[])
     exit(1);
   }
   
-  char str[1000];
-  
+  char* str = NULL;
+
   if (argc == 2)
   {
-      
+      str = malloc(sizeof(char)*(75 + strlen(argv[1])));
+
       strcpy(str, "\
       #/bin/bash \n\
       git add -A\n\
@@ -28,6 +29,8 @@ int main(int argc,char *argv[])
   }
   else
   {
+    str = malloc(sizeof(char)* (75 + strlen(argv[2])));
+
     strcpy(str, "\
     #/bin/bash \n\
     git add ");
