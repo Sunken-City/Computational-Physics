@@ -16,8 +16,8 @@ s[0] = 'f' and s[1] = 'g'.
 */
 
 void func(int n,double *v,double *s) {
-  s[0] = ;
-  s[1] = ;
+  s[0] = (4.0 * tanh(v[0])) - v[1];
+  s[1] = pow((1.0 + exp(cos(v[0]))),1.5) - v[1];
   return;
 }
 
