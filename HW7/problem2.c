@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <math.h>
 #include "sys_roots.h"
+#include "constants.h"
 
 double init[6];
 double tol[6] = {1.0e-6,1.0e-6,1.0e-6,1.0e-6,1.0e-6,1.0e-6};
-double inc[6] = {1.0e-3,1.0e-3,1.0e-3,1.0e-3,1.0e-3,1.0e-3};
+double inc[6] = {1.0,1.0,1.0,1.0,1.0,1.0};
 double W1 = 100.0;
 double W2 = 175.0;
 double L = 30.0;
@@ -22,12 +23,12 @@ s[0] = 'f' and s[1] = 'g'.
 */
 
 void func(int n,double *v,double *s) {
-  s[0] = v[1]*cos(v[4]) - v[0]*cos(v[3]);
-  s[1] = v[0]*sin(v[3]) - v[1]*sin(v[4]) - W1;
-  s[2] = v[2]*cos(v[5]) - v[1]*cos(v[4]);
-  s[3] = v[2]*sin(v[5]) + v[1]*sin(v[4]) - W2;
-  s[4] = L1*cos(v[3]) + L2*cos(v[4]) + L3*cos(v[5]) - L;
-  s[5] = -L1*sin(v[3]) - L2*sin(v[4]) + L3*sin(v[5]);
+  s[0] = v[1]*cos(v[4]*DEGTORAD) - v[0]*cos(v[3]*DEGTORAD);
+  s[1] = v[0]*sin(v[3]*DEGTORAD) - v[1]*sin(v[4]*DEGTORAD) - W1;
+  s[2] = v[2]*cos(v[5]*DEGTORAD) - v[1]*cos(v[4]*DEGTORAD);
+  s[3] = v[2]*sin(v[5]*DEGTORAD) + v[1]*sin(v[4]*DEGTORAD) - W2;
+  s[4] = L1*cos(v[3]*DEGTORAD) + L2*cos(v[4]*DEGTORAD) + L3*cos(v[5]*DEGTORAD) - L;
+  s[5] = -L1*sin(v[3]*DEGTORAD) - L2*sin(v[4]*DEGTORAD) + L3*sin(v[5]*DEGTORAD);
   return;
 }
 
@@ -76,6 +77,10 @@ int main(int argc,char *argv[]) {
   }
   init[0] = atof(argv[1]);
   init[1] = atof(argv[2]);
+  init[2] = atof(argv[3]);
+  init[3] = atof(argv[4]);
+  init[4] = atof(argv[5]);
+  init[5] = atof(argv[6]);
   sys_newton_raphson(6,func,jacobian_numerical,init,tol,100);
   exit(0);
 }
