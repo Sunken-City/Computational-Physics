@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <math.h>
 #include "sys_roots.h"
+#include "constants.h"
 
-double init[2];
-double tol[2] = {1.0e-6,1.0e-6};
-double inc[2] = {1.0e-3,1.0e-3};
-
+double init[4];
+double tol[4] = {1e-12,1e-12,1e-12,1e-12};
+double inc[4] = {1e-6,1e-6,1e-6,1e-3};
+double m = 0.5110e6;
+double hbar = 4.332404e-31;
+double x = 1e-9 / 2.0;
+double k1, k2, k3;
 /*
 C function to calculate the system of functions to be solved.
 The v array argument is the current system argument vector,
@@ -15,11 +19,19 @@ this function is to write the two system function values,
 s[0] = 'f' and s[1] = 'g'.
 */
 
-void func(int n,double *v,double *s) {
-  s[0] = (4.0 * tanh(v[0])) - v[1];
-  s[1] = pow((1.0 + exp(cos(v[0]))),1.5) - v[1];
+void func(int n,double *v,double *s) 
+{
+  k1 = sqrt((-2.0 * m * v[3]) / hbar);
+  k2 = sqrt((2.0 * m * (v[3] + 10.0)) / hbar);
+  k3 = sqrt((2.0 * m * (-v[3] - 5.0)) / hbar);
+  s[0] = exp(-k1 * x) - (v[1]*cos(k2 * x)) + (v[2]*sin(k2 * x));
+  s[1] = (k1 * exp(-k1 * x)) - (k2*v[1]*sin(k2 * x)) - (k2*v[2]*cos(k2 * x));
+  s[2] = v[0] * exp(-k3 * x) - (v[1]*cos(k2 * x)) - (v[2]*sin(k2 * x));
+  s[3] = (k3 * v[0] * exp(-k3 * x)) - (k2*v[1]*sin(k2 * x)) - (k2*v[2]*cos(k2 * x));
   return;
 }
+
+
 
 /*
 C function to calculate the Jacobian of the system of functions to be solved.
@@ -33,33 +45,42 @@ a[1][1] = partial g / partial y
 The partial derivatives are found by numerical differentiation.
 */
 
-void jacobian_numerical(int n,double *v,double **a) {
-  double f1[2],f2[2],vtest[2];
-
-  vtest[0] = v[0] - inc[0];
-  vtest[1] = v[1];
-  func(n,vtest,f1);
-  vtest[0] = v[0] + inc[0];
-  func(n,vtest,f2);
-  a[0][0] = (f2[0] - f1[0]) / (2.0 * inc[0]);
-  a[1][0] = (f2[1] - f1[1]) / (2.0 * inc[0]);
-  vtest[0] = v[0];
-  vtest[1] = v[1] - inc[1];
-  func(n,vtest,f1);
-  vtest[1] = v[1] + inc[1];
-  func(n,vtest,f2);
-  a[0][1] = (f2[0] - f1[0]) / (2.0 * inc[1]);
-  a[1][1] = (f2[1] - f1[1]) / (2.0 * inc[1]);
-  return;
+void jacobian_numerical(int n,double *x,double **a) {
+ double *f1,*f2,*xtest;
+ int i,j;
+ f1 = (double *) malloc(n * sizeof(double));
+ f2 = (double *) malloc(n * sizeof(double));
+ xtest = (double *) malloc(n * sizeof(double));
+ for (j = 0; j < n; j++) {
+    /* initialize xtest vector */
+    for (i = 0; i < n; i++) {
+    xtest[i] = x[i];
+    }
+    /* find partial derivative with respect to x[j] */
+    xtest[j] = x[j] - inc[j];
+    func(n,xtest,f1);
+    xtest[j] = x[j] + inc[j];
+    func(n,xtest,f2);
+    for (i = 0; i < n; i++) {
+    a[i][j] = (f2[i] - f1[i]) / (2.0 * inc[j]);
+    }
+ }
+ free(f1);
+ free(f2);
+ free(xtest);
+ return;
 }
 
+
 int main(int argc,char *argv[]) {
-  if (argc != 3) {
-    fprintf(stderr,"%s <init0> <init1>\n",argv[0]);
+  if (argc != 5) {
+    fprintf(stderr,"%s <B> <C> <D> <E>\n",argv[0]);
     exit(1);
   }
   init[0] = atof(argv[1]);
   init[1] = atof(argv[2]);
-  sys_newton_raphson(2,func,jacobian_numerical,init,tol,100);
+  init[2] = atof(argv[3]);
+  init[3] = atof(argv[4]);
+  sys_newton_raphson(4,func,jacobian_numerical,init,tol,100);
   exit(0);
 }
