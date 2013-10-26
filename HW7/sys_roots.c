@@ -36,7 +36,8 @@ int sys_newton_raphson(int n,void (*func)(int n,double *x,double *f),void (*jaco
       i++;
     }
 #endif
-    if (gauss_pivotmax(n,a,rhs,d,rindex,1.0e-12)) {
+#if 0 
+      if (gauss_pivotmax(n,a,rhs,d,rindex,1.0e-12)) {
       fprintf(stderr,"Singular Jacobian matrix\n");
       free_matrix(n,a);
       free(d);
@@ -45,6 +46,7 @@ int sys_newton_raphson(int n,void (*func)(int n,double *x,double *f),void (*jaco
       free(rindex);
       return(2);
     }
+#endif
     done = 1;
     i = 0;   /*test if all x values are within convergence tolerance*/
     while (i < n) {
