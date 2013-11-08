@@ -124,3 +124,63 @@ double newton(int n,struct point2d *sample,double x) {
   }
   return(p);
 }
+
+int find_newton_inverse_coeffs(int n,struct point2d *sample) {
+  int i,j;
+
+  if (n < 2) return(-1);
+  if (div_diff != NULL) free_tri(n,div_diff);
+  div_diff = alloc_tri(n);
+  i = 0;  /*initialize first column to be data sample y values*/
+  while (i < n) {
+    div_diff[i][0] = sample[i].x;
+    i++;
+  }
+  j = 1;  /*calculate second through nth column*/
+  while (j < n) {
+    i = 0;
+    while (i < (n - j)) {
+      div_diff[i][j] = (div_diff[i + 1][j - 1] - div_diff[i][j - 1]) / (sample[i + j].y - sample[i].y);
+      i++;
+    }
+    j++;
+  }
+  disp_tri(n,div_diff);
+  return(0);
+}
+
+double newton_inverse(int n,struct point2d *sample,double y) {
+  int j;
+  double p;
+
+  if (n < 2) return(0.0);
+  if (div_diff == NULL) return(0.0);
+  p = div_diff[0][n - 1];
+  j = n - 2;
+  while (j >= 0) {
+    p = (p * (y - sample[j].y)) + div_diff[0][j];
+    j--;
+  }
+  return(p);
+}
+
+double lagrange_inverse(int n,struct point2d *sample,double y) {
+  double sum,product;
+  int i,j;
+
+  sum = 0.0;
+  i = 0;
+  while (i < n) {
+    product = sample[i].x;
+    j = 0;
+    while (j < n) {
+      if (j != i) {
+        product *= (y - sample[j].y) / (sample[i].y - sample[j].y);
+      }
+      j++;
+    }
+    sum += product;
+    i++;
+  }
+  return(sum);
+}

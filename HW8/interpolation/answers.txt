@@ -1,0 +1,5 @@
+1. Period = 10.4 days
+
+3. The maximum altitude is 34094.853
+
+5. Looking at our coefficients, we see that the highest order terms have coefficients of zero. Because of this, the highest nonzero polynomial happens to be of the 3rd order, which means that although we were using a 5th order polynomial to interpolate the data, it turned out to be only a 3rd order. 

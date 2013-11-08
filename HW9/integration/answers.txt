@@ -1,0 +1,78 @@
+1) Half Life = 24.577941
+2) C = 1.17169865389e+13
+3) Vf = 3643.58704901
+4)
+  a)	anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0 0 0
+	Trapezoidal rule:
+	0.000123223400741
+	Simpson's rule:
+	0.00012322340188
+
+  
+  b)  anthony@linux-edzb ~/P/C/H/integration> ./solenoid -0.075 0 0
+      Trapezoidal rule:
+      0.000123698060216
+      Simpson's rule:
+      0.000121331715488
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid -0.05 0 0
+      Trapezoidal rule:
+      0.000123257264618
+      Simpson's rule:
+      0.000123216359954
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid -0.025 0 0
+      Trapezoidal rule:
+      0.000123231893491
+      Simpson's rule:
+      0.000123231854898
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0.025 0 0
+      Trapezoidal rule:
+      0.000123231949657
+      Simpson's rule:
+      0.000123231910595
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0.05 0 0
+      Trapezoidal rule:
+      0.000123257375591
+      Simpson's rule:
+      0.000123216469997
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0.075 0 0
+      Trapezoidal rule:
+      0.000123698300394
+      Simpson's rule:
+      0.000121331928641
+  
+  c)  anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0 0 0.1
+      Trapezoidal rule:
+      0.00012293280752
+      Simpson's rule:
+      0.000122932809121
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0 0 0.2
+      Trapezoidal rule:
+      0.000121807886848
+      Simpson's rule:
+      0.000121807890729
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0 0 0.3
+      Trapezoidal rule:
+      0.000118545161463
+      Simpson's rule:
+      0.000118545175604
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0 0 0.4
+      Trapezoidal rule:
+      0.000106876316691
+      Simpson's rule:
+      0.000106876386169
+      anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0 0 0.5
+      Trapezoidal rule:
+      6.25200304979e-05
+      Simpson's rule:
+      6.25200305362e-05
+
+      At this point, we're reaching the part where the field spreads out and expands, which causes it to become more and more inconsistent the closer we get to the edge.
+      
+  d)  anthony@linux-edzb ~/P/C/H/integration> ./solenoid 0.5 0 0
+      Trapezoidal rule:
+      -8.91647514744e-07
+      Simpson's rule:
+      -8.91644758112e-07
+
+      At this point, the field is nonzero, which means that there still is a magnetic field at this point. However, it is very close to zero, which implies that it is very weak. 
+      The sign is negative because at this point, the field is pointing in a negative y direction, which is part of the idea that you can't have a magnetic monopole.
