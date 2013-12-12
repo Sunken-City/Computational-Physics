@@ -1,0 +1,74 @@
+#!/usr/bin/wish
+#   VERSION 3
+
+proc run_sim {} {
+  global v theta alpha gnuplot_id
+
+  set sim_id [open "| ./ballistic 1 $v $theta $alpha 30 0.1" r]
+  set sim_data {}
+  while { [gets $sim_id line] >= 0 } {
+    lappend sim_data $line
+  }
+  close $sim_id
+  if { [string length $gnuplot_id] == 0 } {
+    set gnuplot_id [open "| gnuplot" w]
+    puts $gnuplot_id "set title 'Ballistic flight with air drag (Pico is dabes)'"
+    puts $gnuplot_id "set xlabel 'Distance'"
+    puts $gnuplot_id "set xrange \[0:1200\]"
+    puts $gnuplot_id "set ylabel 'Height'"
+    puts $gnuplot_id "set yrange \[0:1000\]"
+    puts $gnuplot_id "unset key"
+  }
+  puts $gnuplot_id "plot '-' using 2:3 with lines"
+  foreach line $sim_data {
+    puts $gnuplot_id $line
+  }
+  puts $gnuplot_id "e"
+  flush $gnuplot_id
+}
+
+proc set_v { value } {
+  run_sim
+}
+
+proc set_theta { value } {
+  run_sim
+}
+
+proc set_alpha { alpha_log } {
+  global alpha
+  set alpha [format %.6e [expr {pow(10.0,double($alpha_log)/100.0)}]]
+  run_sim
+}
+
+set v 100
+set theta 45
+set alpha 1.0e-6
+set alpha_log -600
+set gnuplot_id ""
+frame .v
+scale .v.scale -length 600 -from 0 -to 200 -showvalue false -variable v -orient "horizontal" -label "Launch velocity" -command set_v
+entry .v.entry -textvariable v
+bind .v.entry <Return> { run_sim }
+pack .v.scale .v.entry -side left -padx 2 -pady 2
+frame .theta
+scale .theta.scale -length 600 -from 0 -to 90 -showvalue false -variable theta -orient "horizontal" -label "Launch angle" -command set_theta
+entry .theta.entry -textvariable theta
+bind .theta.entry <Return> { run_sim }
+pack .theta.scale .theta.entry -side left -padx 2 -pady 2
+frame .alpha
+scale .alpha.scale -length 600 -from -600 -to -200 -showvalue false -variable alpha_log -orient "horizontal" -label "Drag coefficient" -command set_alpha
+entry .alpha.entry -textvariable alpha
+bind .alpha.entry <Return> { run_sim }
+pack .alpha.scale .alpha.entry -side left -padx 2 -pady 2
+frame .buttons
+button .buttons.quit -text "Quit" -command {
+  if { [string length $gnuplot_id] > 0 } {
+    if { [catch { close $gnuplot_id } message] } {
+      puts $message
+    }
+  }
+  exit
+}
+pack .buttons.quit -side left -padx 2 -pady 2
+pack .v .theta .alpha .buttons -side top -fill x -padx 2 -pady 2
