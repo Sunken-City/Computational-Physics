@@ -13,6 +13,7 @@ double E;
 double a;
 double period;
 
+//Part 1:
 double potential(double x) 
 {
   if (x < -6.5625e-9 || x > 6.5625e-9)
@@ -45,6 +46,7 @@ void schroedinger(int n,double x,double y[2],double yp[2])
  yp[1] = 5.1363071e13 * 0.5110e6 * (potential(x) - E) * y[0];
 }
 
+//Part 2:
 double wave_shoot(double energy) 
 {
  double k, y[2];
@@ -53,10 +55,10 @@ double wave_shoot(double energy)
  y[0] = exp(-k * a);
  y[1] = k * y[0];
  rk4_quiet(2, schroedinger, -6.5625e-9 - a/2.0, 6.5625e-9 + a/2.0, a / 100.0, y);
- //...
  return(y[0]);
 }
-/*Function for making the actual waveform
+
+//Function for making the actual waveform
 void wave_shoot_loud(double energy) 
 {
  double k, y[2];
@@ -65,20 +67,18 @@ void wave_shoot_loud(double energy)
  y[0] = exp(-k * a);
  y[1] = k * y[0];
  rk4(2, schroedinger, -a, a, a / 100.0, y);
- //...
- //return(y[0]);
-}*/
+}
 
 int main(int argc,char *argv[])
 {
   a = 0.6e-9;
   period = 0.625e-9;
-  //Part 1:
+  //Uncomment for Part 1:
   //sweep(potential, -1e-8, 1e-8, 1e-12);
-  //Part 2:
+  //Uncomment for Part 2:
   //sweep(wave_shoot,-21.0,0.0,1e-4);
-  //Part 3:
-  sweep_regula_falsi(wave_shoot, -5.0, 0.0, 1e-5, 500, 1e-9);
+  //Uncomment for Part 3:
+  sweep_regula_falsi(wave_shoot, -21.0, 0.0, 1e-5, 500, 1e-9);
   //wave_shoot_loud(-8.8138999);
   exit(0);
 }
